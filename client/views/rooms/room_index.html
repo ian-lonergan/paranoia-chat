@@ -1,0 +1,36 @@
+<h1>Rooms</h1>
+<div class="room new">
+  <h2>New Room</h2>
+  <form ng-submit="createRoom(name, joinAs)">
+    <label>Room Name:</label>
+    <input type="text" ng-model="name" />
+    <br />
+    <label>User Name:</label>
+    <input type="text" ng-model="joinAs" />
+    <br />
+    <input type="submit"/>
+  </form>
+</div>
+<div class="room list">
+  <h2>Room List</h2>
+  <div class="room list">
+    <div class="room entry" ng-repeat="room in getRooms()">
+      <div class="room header">
+        <strong>{{room.name}}</strong> - <strong>{{room.owner.name}}</strong>
+      </div>
+      <div class="room main">
+        <div class="room players">
+          <strong>Players</strong>
+          <div class="room player">{{player.name}}</div>
+        </div>
+        <div class="room form">
+          <form ng-submit="joinRoom(room)">
+            <label>Join as: </label>
+            <input type="text" ng-model="room.joinAs" />
+            <input type="submit" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

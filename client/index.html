@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    
+    <!-- STYLES -->
+    <link rel="stylesheet" type="text/css" href="styles/main.css" />
+    <!-- END STYLES -->
+
+    <title>Paranoia Chat</title>
+  </head>
+  <body ng-app="paranoiaChat">
+
+    <!-- ANGULAR CONTENT -->
+    <div class="view" ng-view></div>
+    <!-- END ANGULAR CONTENT -->
+
+    <!-- BOWER SCRIPTS -->
+    <script src="libs/socket.io-client/socket.io.js"></script>
+    <script src="libs/angular/angular.js"></script>
+    <script src="libs/angular-route/angular-route.js"></script>
+    <script src="libs/angular-sanitize/angular-sanitize.js"></script>
+    <script src="libs/angular-socket-io/socket.js"></script>
+    <script src="libs/angular-scroll-glue/src/scrollglue.js"></script>
+    <!-- END BOWER SCRIPTS -->
+    
+    <!-- SCRIPTS -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/rooms-controller.js"></script>
+    <script src="scripts/factories/room.js"></script>
+    <!-- END SCRIPTS -->
+  </body>
+</html>
