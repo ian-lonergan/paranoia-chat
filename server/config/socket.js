@@ -3,6 +3,9 @@
 var _ = require('lodash'),
     Room = require('../models/room'),
     User = require('../models/user'),
+    Character = require('../models/character'),
+    Owner = require('../models/owner'),
+    Player = require('../models/player'),
     RoomsController = require('../controllers/rooms-controller');
 
 function removePlayerFromRoom(io, room, user) {
@@ -74,11 +77,11 @@ module.exports = function (io) {
     socket.on('room::create', function(newRoom) {
       var name = newRoom.name,
           password = newRoom.password,
-          user = new User(newRoom.user.name, true, socket);
+          owner = new Owner(newRoom.user.name, socket);
 
       if (!RoomsController.findByName(name)) {
         // try to create the new room
-        var room = RoomsController.createRoom(name, user, password);
+        var room = RoomsController.createRoom(name, owner, password);
 
         // check if room was created successfully
         if (room) {
@@ -92,7 +95,7 @@ module.exports = function (io) {
             }
           }
 
-          socket.user = user;
+          socket.user = owner;
           socket.room = room;
 
           // put the client in the room
@@ -115,7 +118,8 @@ module.exports = function (io) {
       var roomName = toJoin.name,
           userName = toJoin.user.name,
           room = RoomsController.findByName(roomName),
-          user = new User(userName, false, socket);
+          character = Character.createFromObject(toJoin.user.character),
+          player = new Player(userName, socket, character);
 
       // check if room exists
       if (room) {
@@ -129,18 +133,18 @@ module.exports = function (io) {
           }
         }
         if (!room.findPlayerByName(userName)) {
-          if (room.addPlayer(user)) {
-            socket.user = user;
+          if (room.addPlayer(player)) {
+            socket.user = player;
             socket.room = room;
 
             // announce to the room that a new user has joined
-            io.to(room.getName()).emit('room::player::add', user.get());
+            io.to(room.getName()).emit('room::player::add', player.get());
 
             // put the client in the room
             socket.join(room.getName());
 
             // tell the client they are in a new room
-            socket.emit('room::join', { me: user.get(), room: room.get() });
+            socket.emit('room::join', { me: player.get(), room: room.get() });
           } else {
             // This should not happen
             return;
