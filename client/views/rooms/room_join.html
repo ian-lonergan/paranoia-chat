@@ -1,0 +1,28 @@
+<div class="room join">
+  <h1>Join Room</h2>
+  <form ng-submit="joinRoom(name, joinAs, character)">
+    <label>User Name:</label>
+    <input type="text" ng-model="room.user.name" />
+    <br />
+    <h2>Character Information</h2>
+    <label>Character Name:</label>
+    <input type="text" ng-model="room.user.character.name" />
+    <br />
+    <label>Rank:</label>
+    <input type="text" maxlength="1" ng-model="room.user.character.rank" />
+    <br />
+    <label>Sector:</label>
+    <input type="text" maxlength="3" ng-model="room.user.character.sector" />
+    <br />
+    <label>Clone Number:</label>
+    <input type="number" min="1" ng-model="room.user.character.cloneNumber" />
+    <br />
+    <label>Mutant Power:</label>
+    <input type="text" ng-model="room.user.character.mutantPower" />
+    <br />
+    <label>Secret Society:</label>
+    <input type="text" ng-model="room.user.character.secretSociety" />
+    <br />
+    <input type="submit"/>
+  </form>
+</div>

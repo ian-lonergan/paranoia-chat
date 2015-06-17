@@ -4,17 +4,21 @@ angular.module('paranoiaChat.rooms', ['ngRoute'])
 
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider
-      .when('/rooms/', {
-      templateUrl: 'views/rooms/room_index.html',
+      .when('/rooms', {
+      templateUrl: 'views/rooms/room_list.html',
       controller: 'RoomsController'
     })
       .when('/room', {
       templateUrl: 'views/rooms/room.html',
       controller: 'RoomController'
+    })
+      .when('/room/join', {
+      templateUrl: 'views/rooms/room_join.html',
+      controller: 'JoinRoomController'
     });
   }])
 
-  .controller('RoomsController', function ($scope, room) {
+  .controller('RoomsController', function ($scope, $location, room) {
   var socket = room.getSocket();
 
   socket.emit('rooms::list');
@@ -26,7 +30,8 @@ angular.module('paranoiaChat.rooms', ['ngRoute'])
   $scope.getRooms = room.getRooms;
 
   $scope.joinRoom = function (roomToJoin) {
-    socket.emit('room::join', { name: roomToJoin.name, user: { name: roomToJoin.joinAs } });
+    room.setRoomToJoin(roomToJoin);
+    $location.path('/room/join');
   };
 
   $scope.createRoom = function (name, joinAs, password) {
@@ -38,7 +43,7 @@ angular.module('paranoiaChat.rooms', ['ngRoute'])
   if (room.getRoom() === null) {
     $location.path('/rooms');
   }
-  
+
   var socket = room.getSocket();
 
   $scope.messageInput = {
@@ -72,5 +77,29 @@ angular.module('paranoiaChat.rooms', ['ngRoute'])
 
     socket.emit('room::message::private', { to: { name: user.name, isOwner: user.isOwner }, body: user.messageToSend });
     user.messageToSend = '';
+  };
+})
+
+  .controller('JoinRoomController', function ($scope, $location, room) {
+  var socket = room.getSocket(),
+      roomToJoin = room.getRoomToJoin();
+  
+  $scope.room = {
+    name: roomToJoin.name,
+    user: {
+      name: null,
+      character: {
+        name: null,
+        rank: 'R',
+        sector: null,
+        cloneNumber: 1,
+        mutantPower: null,
+        secretSociety: null
+      }
+    }
+  };
+  
+  $scope.joinRoom = function () {
+    socket.emit('room::join', $scope.room);
   };
 });

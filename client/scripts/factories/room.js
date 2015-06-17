@@ -89,6 +89,7 @@ angular.module('paranoiaChat')
 })
   .factory('room', function (socketFactory, User, Room, $location) {
   var myRoom = null,
+      roomToJoin = null,
       allRooms = {},
       socket = socketFactory();
 
@@ -157,6 +158,12 @@ angular.module('paranoiaChat')
     },
     getSocket: function () {
       return socket;
+    },
+    getRoomToJoin: function () {
+      return roomToJoin;
+    },
+    setRoomToJoin: function (theRoom) {
+      roomToJoin = theRoom;
     }
   };
 
