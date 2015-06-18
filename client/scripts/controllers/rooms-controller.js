@@ -51,9 +51,7 @@ angular.module('paranoiaChat.rooms', ['ngRoute'])
   };
 
   $scope.room = room.getRoom();
-
-  $scope.getMessages = room.getMessages;
-  $scope.getPlayers = room.getPlayers;
+  $scope.me = room.getMe();
 
   $scope.sendMessage = function () {
     if (!$scope.messageInput) {
