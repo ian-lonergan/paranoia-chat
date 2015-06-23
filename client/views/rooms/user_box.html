@@ -1,0 +1,9 @@
+<form class="chat flex-row" ng-submit="sendPrivateMessage(user)">
+  <label class="input">{{user.name}}</label>
+  <input class="chat" type="text" ng-model="user.messageToSend" />
+</form>
+<aside class="messages vertical-overflow" scroll-glue-bottom>
+  <div class="message" ng-repeat="message in user.getPrivateMessages()">
+    <p class="message"><strong class="message from">{{message.from.name}}:</strong>{{message.body}}</p>
+  </div>
+</aside>

@@ -67,15 +67,6 @@ angular.module('paranoiaChat.rooms', ['ngRoute'])
       socket.emit('room::leave');
     }
   });
-
-  $scope.sendPrivateMessage = function (user) {
-    if (!user.messageToSend) {
-      return;
-    }
-
-    socket.emit('room::message::private', { to: { name: user.name, isOwner: user.isOwner }, body: user.messageToSend });
-    user.messageToSend = '';
-  };
 })
 
   .controller('JoinRoomController', function ($scope, $location, room) {

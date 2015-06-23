@@ -11,26 +11,9 @@
     <h1>Public Chat</h1>
   </div>
   <div class="flex-column right outer">
-    <div class="flex-column private chat" ng-if="room.owner !== me">
-      <form class="chat flex-row" ng-submit="sendPrivateMessage(room.owner)">
-        <label class="input">{{room.owner.name}}</label>
-        <input class="chat" type="text" ng-model="room.owner.messageToSend" />
-      </form>
-      <aside class="messages vertical-overflow" scroll-glue-bottom>
-        <div class="message" ng-repeat="message in room.owner.getPrivateMessages()">
-          <p class="message"><strong class="message from">{{message.from.name}}:</strong>{{message.body}}</p>
-        </div>
-      </aside>
+    <div user-box class="flex-column private chat" ng-if="room.owner !== me" user="room.owner">
     </div>
-    <div class="flex-column private chat" ng-repeat="player in room.getPlayers()" ng-if="player !== me">
-      <form class="chat flex-row" ng-submit="sendPrivateMessage(player)">
-        <label class="input">{{player.name}}</label><input class="chat" type="text" ng-model="player.messageToSend" />
-      </form>
-      <aside class="messages vertical-overflow" scroll-glue-bottom>
-        <div class="message" ng-repeat="message in player.getPrivateMessages()">
-           <p class="message"><strong class="message from">{{message.from.name}}:</strong>{{message.body}}</p>
-        </div>
-      </aside>
+    <div class="flex-column private chat" ng-repeat="player in room.getPlayers()" ng-if="player !== me" user-box user="player">
     </div>
     <h1>Private Chats</h1>
   </div>
